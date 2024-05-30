@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Cleaning extends Auditable{
+public class CarCleaning extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
