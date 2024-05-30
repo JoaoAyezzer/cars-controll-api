@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: cars-controll-api
+  profiles:
+    active: dev
+security:
+  key: 7638792F423F4428472B4B6250655368566D597133743677397A244326462948
