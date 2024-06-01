@@ -22,6 +22,6 @@ public class Car extends Auditable{
     private Integer year;
     private BigDecimal mileage;
     @Column(unique = true)
-    private String Identification;
+    private String identification;
     private Boolean blocked;
 }

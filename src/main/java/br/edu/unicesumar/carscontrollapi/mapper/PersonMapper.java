@@ -6,6 +6,7 @@ import br.edu.unicesumar.carscontrollapi.domain.User;
 import br.edu.unicesumar.carscontrollapi.dto.PersonCreate;
 import br.edu.unicesumar.carscontrollapi.dto.PersonDTO;
 import br.edu.unicesumar.carscontrollapi.dto.UserDTO;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -16,56 +17,25 @@ public class PersonMapper {
     }
 
     public static Person toPersonEntity(PersonCreate personCreate) {
-        Address address = null;
+        Address address = new Address();
+        Person person = new Person();
         if (Objects.nonNull(personCreate.address())) {
-            address = Address
-                    .builder()
-                    .id(UUID.randomUUID())
-                    .street(personCreate.address().street())
-                    .district(personCreate.address().district())
-                    .city(personCreate.address().city())
-                    .country(personCreate.address().country())
-                    .state(personCreate.address().state())
-                    .zip(personCreate.address().zip())
-                    .build();
+            BeanUtils.copyProperties(personCreate.address(), address);
+            address.setId(UUID.randomUUID());
         }
-        return Person
-                .builder()
-                .cnh(personCreate.cnh())
-                .cpf(personCreate.cpf())
-                .phone(personCreate.phone())
-                .firstName(personCreate.firstName())
-                .lastName(personCreate.lastName())
-                .expirationDateCnh(personCreate.expirationDateCnh())
-                .address(address)
-                .build();
+        BeanUtils.copyProperties(personCreate, person);
+        person.setAddress(address);
+        return person;
     }
 
     public static PersonDTO toDTO(Person person){
-        UserDTO user = null;
+        UserDTO user = new UserDTO();
+        PersonDTO personDTO = new PersonDTO();
         if (Objects.nonNull(person.getUser())) {
-            user = UserDTO
-                    .builder()
-                    .id(person.getUser().getId())
-                    .active(person.getUser().getActive())
-                    .email(person.getUser().getEmail())
-                    .role(person.getUser().getRole())
-                    .build();
-
+            BeanUtils.copyProperties(person.getUser(), user);
         }
-        return PersonDTO
-                .builder()
-                .id(person.getId())
-                .firstName(person.getFirstName())
-                .lastName(person.getLastName())
-                .cpf(person.getCpf())
-                .phone(person.getPhone())
-                .cnh(person.getCnh())
-                .expirationDateCnh(person.getExpirationDateCnh())
-                .address(person.getAddress())
-                .user(user)
-                .createdAt(person.getCreatedAt())
-                .updatedAt(person.getUpdatedAt())
-                .build();
+        BeanUtils.copyProperties(person, personDTO);
+        personDTO.setUser(user);
+        return personDTO;
     }
 }
