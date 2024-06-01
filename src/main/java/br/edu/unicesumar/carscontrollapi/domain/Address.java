@@ -19,6 +19,7 @@ public class Address extends Auditable{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String street;
+    private String district;
     private String city;
     private String state;
     private String zip;
