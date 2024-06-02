@@ -1,6 +1,8 @@
 package br.edu.unicesumar.carscontrollapi.resource;
 
 import br.edu.unicesumar.carscontrollapi.domain.Car;
+import br.edu.unicesumar.carscontrollapi.dto.CarCleaningCreate;
+import br.edu.unicesumar.carscontrollapi.dto.CarCleaningDTO;
 import br.edu.unicesumar.carscontrollapi.dto.CarCreate;
 import br.edu.unicesumar.carscontrollapi.service.CarService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping
+@RequestMapping("car")
 @RequiredArgsConstructor
 public class CarResource {
     private final CarService service;
@@ -47,5 +49,18 @@ public class CarResource {
         service.delete(id);
         return ResponseEntity.accepted().build();
     }
+
+    //Cleaning Car
+    @PostMapping(value = "cleaning")
+    public ResponseEntity<Void> createCleaning(@RequestBody CarCleaningCreate dto){
+        var carCleaning = service.createCarCleaning(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/cleaning/{id}").buildAndExpand(carCleaning.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+    @GetMapping(value = "cleaning/{id}")
+    public ResponseEntity<CarCleaningDTO> findCleaningById(@PathVariable UUID id){
+        return ResponseEntity.ok(service.getCarCleaning(id));
+    }
+    
 
 }

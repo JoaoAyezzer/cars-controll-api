@@ -1,11 +1,17 @@
 package br.edu.unicesumar.carscontrollapi.service;
 
 import br.edu.unicesumar.carscontrollapi.domain.Car;
+import br.edu.unicesumar.carscontrollapi.domain.CarCleaning;
+import br.edu.unicesumar.carscontrollapi.dto.CarCleaningCreate;
+import br.edu.unicesumar.carscontrollapi.dto.CarCleaningDTO;
 import br.edu.unicesumar.carscontrollapi.dto.CarCreate;
 import br.edu.unicesumar.carscontrollapi.exceptions.DataIntegrityException;
 import br.edu.unicesumar.carscontrollapi.exceptions.ObjectNotfoundException;
+import br.edu.unicesumar.carscontrollapi.mapper.CarCleaningMapper;
 import br.edu.unicesumar.carscontrollapi.mapper.CarMapper;
+import br.edu.unicesumar.carscontrollapi.repository.CarCleaningRepository;
 import br.edu.unicesumar.carscontrollapi.repository.CarRepository;
+import br.edu.unicesumar.carscontrollapi.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -20,6 +26,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CarService {
     private final CarRepository repository;
+    private final CarCleaningRepository carCleaningRepository;
+    private final PersonRepository personRepository;
 
     public Car save(CarCreate dto) {
         try {
@@ -61,4 +69,27 @@ public class CarService {
         }
     }
 
+    public CarCleaning createCarCleaning(CarCleaningCreate dto){
+        CarCleaningMapper.validateEntry(dto);
+        var car = this.findById(dto.car());
+        var person = personRepository.findById(dto.createdBy()).orElseThrow(
+                () -> new ObjectNotfoundException("Pessoa nao encontrada com id: " + dto.createdBy())
+        );
+        var cleaning = CarCleaning
+                .builder()
+                .car(car)
+                .createdBy(person)
+                .obs(dto.obs())
+                .open(true)
+                .build();
+        try {
+            return carCleaningRepository.save(cleaning);
+        }catch (Exception e){
+            log.error("CarService->createCarCleaning: {}", e.getMessage());
+            throw new DataIntegrityException("Ops! Algo deu errado. Nao foi concluido a solicitacao de limpeza");
+        }
+    }
+
+    public CarCleaningDTO getCarCleaning(UUID id) {
+    }
 }
