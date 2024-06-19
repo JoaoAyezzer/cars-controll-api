@@ -3,5 +3,10 @@ spring:
     name: cars-controll-api
   profiles:
     active: dev
+springdoc:
+  swagger-ui:
+    path: /doc
+    tags-sorter: alpha
+    defaultModelsExpandDepth: -1
 security:
   key: 7638792F423F4428472B4B6250655368566D597133743677397A244326462948
