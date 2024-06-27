@@ -16,7 +16,8 @@ public class Client extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nome;
+    private String name;
+    private String cpfCnpj;
     private String phone;
     private String email;
 
