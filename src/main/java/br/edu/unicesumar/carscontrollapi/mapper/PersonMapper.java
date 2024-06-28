@@ -2,9 +2,9 @@ package br.edu.unicesumar.carscontrollapi.mapper;
 
 import br.edu.unicesumar.carscontrollapi.domain.Address;
 import br.edu.unicesumar.carscontrollapi.domain.Person;
-import br.edu.unicesumar.carscontrollapi.domain.User;
 import br.edu.unicesumar.carscontrollapi.dto.PersonCreate;
 import br.edu.unicesumar.carscontrollapi.dto.PersonDTO;
+import br.edu.unicesumar.carscontrollapi.dto.PersonUpdateDTO;
 import br.edu.unicesumar.carscontrollapi.dto.UserDTO;
 import org.springframework.beans.BeanUtils;
 
@@ -16,7 +16,7 @@ public class PersonMapper {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Person toPersonEntity(PersonCreate personCreate) {
+    public static Person toEntity(PersonCreate personCreate) {
         Address address = new Address();
         Person person = new Person();
         if (Objects.nonNull(personCreate.address())) {
@@ -25,6 +25,13 @@ public class PersonMapper {
         }
         BeanUtils.copyProperties(personCreate, person);
         person.setAddress(address);
+        return person;
+    }
+    public static Person toEntity(PersonUpdateDTO personUpdate) {
+        Address address = new Address();
+        Person person = new Person();
+        BeanUtils.copyProperties(personUpdate, person);
+        BeanUtils.copyProperties(personUpdate.getAddress(), address);
         return person;
     }
 

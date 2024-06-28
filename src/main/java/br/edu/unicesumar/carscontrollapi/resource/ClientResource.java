@@ -25,6 +25,18 @@ public class ClientResource {
         return ResponseEntity.created(uri).build();
     }
 
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody Client client) {
+        clientService.update(client);
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        clientService.delete(id);
+        return ResponseEntity.accepted().build();
+    }
+
     @GetMapping
     public ResponseEntity<List<Client>> findAll() {
         return ResponseEntity.ok(clientService.findAll());

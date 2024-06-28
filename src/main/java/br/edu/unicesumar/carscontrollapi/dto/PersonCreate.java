@@ -9,6 +9,6 @@ public record PersonCreate(
         String cnh,
         LocalDate expirationDateCnh,
         String phone,
-        AddressCreate address
+        AddressCreateDTO address
 ) {
 }

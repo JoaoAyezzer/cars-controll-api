@@ -2,6 +2,7 @@ package br.edu.unicesumar.carscontrollapi.resource;
 
 import br.edu.unicesumar.carscontrollapi.dto.PersonCreate;
 import br.edu.unicesumar.carscontrollapi.dto.PersonDTO;
+import br.edu.unicesumar.carscontrollapi.dto.PersonUpdateDTO;
 import br.edu.unicesumar.carscontrollapi.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping
+@RequestMapping(value = "person")
 @RequiredArgsConstructor
 public class PersonResource {
     private final PersonService service;
@@ -31,6 +32,16 @@ public class PersonResource {
         var person = service.save(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(person.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+    @PutMapping
+    public ResponseEntity<Void> update(PersonUpdateDTO dto){
+        service.update(dto);
+        return ResponseEntity.accepted().build();
+    }
+    @DeleteMapping(value = "{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.accepted().build();
     }
 
 }

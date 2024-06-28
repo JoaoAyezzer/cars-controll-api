@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Image extends Auditable{
+public class Ticket extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

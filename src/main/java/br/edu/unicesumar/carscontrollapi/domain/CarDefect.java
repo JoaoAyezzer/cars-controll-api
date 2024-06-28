@@ -23,4 +23,8 @@ public class CarDefect extends Auditable{
     private String description;
 
     private Boolean resolved;
+
+    @JoinColumn
+    @ManyToOne
+    private Car car;
 }

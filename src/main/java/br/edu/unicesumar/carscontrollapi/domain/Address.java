@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -24,5 +25,7 @@ public class Address extends Auditable{
     private String state;
     private String zip;
     private String country;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }

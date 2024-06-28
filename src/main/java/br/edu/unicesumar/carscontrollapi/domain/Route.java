@@ -34,4 +34,8 @@ public class Route extends Auditable{
 
     private BigDecimal endMileage;
 
+    @JoinColumn
+    @ManyToOne
+    private Car car;
+
 }

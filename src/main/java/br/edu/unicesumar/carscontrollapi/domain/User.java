@@ -24,9 +24,9 @@ public class User extends Auditable implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
-    private String forgotCode;
     private Boolean active;
     private String role;
+
     @JoinColumn
     @OneToOne
     private Person person;
